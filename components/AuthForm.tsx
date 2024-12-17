@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
 
 interface Props {
   isSignUp: boolean;
@@ -113,6 +114,22 @@ const AuthForm = ({ isSignUp }: Props) => {
       >
         {isSignUp ? 'Sign Up' : 'Sign In'}
       </button>
+
+      {isSignUp ? (
+        <p className="mt-3">
+          Have an account?{' '}
+          <Link href="/login" className="text-blue-500">
+            Login
+          </Link>
+        </p>
+      ) : (
+        <p className="mt-3">
+          Don{"'"}t an account?{' '}
+          <Link href="/signup" className="text-blue-500">
+            Signup
+          </Link>
+        </p>
+      )}
     </form>
   );
 };
