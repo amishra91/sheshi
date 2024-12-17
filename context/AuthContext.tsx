@@ -1,7 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 interface AuthContextType {
   user: string | null;
@@ -18,6 +19,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<string | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const savedUser = Cookies.get('user');
+    if (savedUser) {
+      setUser(savedUser);
+    }
+  }, []);
 
   const login = (identifier: string, password: string, otp?: string) => {
     const hardcodedPassword = 'password123';
@@ -40,6 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     setUser(identifier);
+    Cookies.set('user', identifier, { expires: 7 });
     alert('Login successful!');
     router.push('/');
   };
@@ -58,6 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logout = () => {
     setUser(null);
+    Cookies.remove('user');
   };
 
   const isAuthenticated = !!user;
