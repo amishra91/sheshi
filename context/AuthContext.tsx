@@ -53,6 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     console.log('Sign-Up successful with:', { identifier });
     setUser(identifier);
+    router.push('/login');
   };
 
   const logout = () => {
