@@ -1,7 +1,20 @@
+'use client';
 import AuthForm from '@/components/AuthForm';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import { useEffect } from 'react';
 
 const Page = () => {
-  return <AuthForm isSignUp={false} />;
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/');
+    }
+  }, [isAuthenticated, router]);
+
+  return !isAuthenticated ? <AuthForm isSignUp={false} /> : null;
 };
 
 export default Page;
